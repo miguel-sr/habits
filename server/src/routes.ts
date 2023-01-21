@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { date, z } from "zod";
-import { prisma } from "./prisma";
+import { prisma } from "./lib/prisma";
 import dayjs from "dayjs";
 
 export async function appRoutes(app: FastifyInstance) {
@@ -61,15 +61,16 @@ export async function appRoutes(app: FastifyInstance) {
       },
     });
 
-    const completedHabits = day?.dayHabits.map((dayHabit) => {
-      return dayHabit.habit_id;
-    });
+    const completedHabits =
+      day?.dayHabits.map((dayHabit) => {
+        return dayHabit.habit_id;
+      }) ?? [];
 
     return {
       possibleHabits,
       completedHabits,
     };
-  }) ?? [];
+  });
 
   app.patch("/habits/:id/toggle", async (request) => {
     const toggleHabitParams = z.object({
