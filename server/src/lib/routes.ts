@@ -69,7 +69,7 @@ export async function appRoutes(app: FastifyInstance) {
       possibleHabits,
       completedHabits,
     };
-  });
+  }) ?? [];
 
   app.patch("/habits/:id/toggle", async (request) => {
     const toggleHabitParams = z.object({
